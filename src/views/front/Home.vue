@@ -53,11 +53,11 @@
             <h3>厨房换新</h3>
             <p>享受超值补贴</p>
           </div> -->
-          <div class="service" @click="navigateTo('/Business')">
+         <!-- <div class="service" @click="navigateTo('/Business')">
             <img src="@/assets/images/icon.png" alt="招商加盟" class="service-icon" />
             <h3>招商加盟</h3>
             <p>稀缺经销席位</p>
-          </div>
+          </div> -->
           <div class="service" @click="showHotline">
             <img src="@/assets/images/icon.png" alt="服务支持" class="service-icon" />
             <h3>服务支持</h3>

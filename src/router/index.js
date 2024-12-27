@@ -45,14 +45,14 @@ const routes = [
             title: '产品与服务'
         }
     },
-    {
+   /** {
         path: '/business',
         name: 'Business',
         component: () => import('@/views/front/Business.vue'),
         meta: {
             title: '招商'
         }
-    },
+    },**/
     {
         path: '/about',
         name: 'About',

@@ -10,11 +10,11 @@
 			<el-card class="top">
 				<div class="left">
 					<!-- 产品横向逐一展示 -->
-					<div v-for="product in products" :key="product.id" class="product-card">
+					<div v-for="product in products" :key="product.id" class="product-card" @click="viewDetails(product.id)">
 						<img :src="product.coverImage" alt="暂无图片" class="product-image"/>
-						<p>品牌：{{ product.brand }}</p>
-						<p>名称：{{ product.name }}</p>
-						<el-button type="primary" @click="viewDetails(product.id)">查看详情</el-button>
+						<p  style="color:#666;font-size: 16px;font-weight: bold">品牌：{{ product.brand }}</p>
+						<p style="color:#666;font-size: 15px">名称：{{ product.name }}</p>
+<!--						<el-button type="primary" @click="viewDetails(product.id)">查看详情</el-button>-->
 					</div>
 				</div>
 			</el-card>
@@ -87,9 +87,11 @@ export default {
 
 .product-card {
   width: 200px;
-  border: 1px solid #e1e1e1;
-  padding: 10px;
+	background: #f8f8f8;
+	border-radius: 2px;
+  padding: 12px;
   text-align: center;
+	cursor: pointer;
 }
 
 .product-image {

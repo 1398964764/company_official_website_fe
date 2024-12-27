@@ -1,29 +1,33 @@
 <template>
-	<div class="footer">
-		<div class="container">
-			<h1 class="center">联系我们</h1>
-			<div class="flex">
-				<div class="info" v-if="footerData">
-					<div><i class="el-icon-phone"></i>电话：{{ footerData.phone }}</div>
-					<div><i class="el-icon-message"></i>邮箱：{{ footerData.email }}</div>
-					<div><i class="el-icon-location-information"></i>地址：{{ footerData.address }}</div>
-				</div>
-				<img v-if="footerData" :src="footerData.weChatImage" style="width: 150px; height: 150px"/>
-			</div>
-		</div>
-		<div class="other center" v-if="footerData">
-			<div class="flex-center">
-				<a class="item" :href="'https://beian.mps.gov.cn/#/query/webSearch'" target="_blank">互联网ICP备案：闽ICP备{{ footerData.icp }}</a>
-				<img class="img" src="@/assets/beian.png" alt="" style="width: 20px; height: 20px">
-				<div>闽公安网备备案号：{{ footerData.publicSecurity }}</div>
-			</div>
-			<p class="copyright">{{ footerData.copyright }}</p>
-		</div>
-	</div>
+    <div class="footer">
+        <div class="container">
+            <h1 class="center">联系我们</h1>
+            <div class="flex">
+                <div class="info" v-if="footerData">
+                    <div><i class="el-icon-phone"></i>电话：{{ footerData.phone }}</div>
+                    <div><i class="el-icon-message"></i>邮箱：{{ footerData.email }}</div>
+                    <div><i class="el-icon-location-information"></i>地址：{{ footerData.address }}</div>
+                </div>
+                <img v-if="footerData" :src="footerData.weChatImage" style="width: 150px; height: 150px"/>
+            </div>
+        </div>
+        <div class="other center" v-if="footerData">
+            <div class="flex-center">
+                <a class="item" :href="'https://beian.mps.gov.cn/#/query/webSearch'"
+                   target="_blank">互联网ICP备案：闽ICP备{{ footerData.icp }}</a>
+                <div class="line">
+                    <div class="img-wrap"><img class="img" src="@/assets/beian.png" alt=""
+                                               style="width: 18px; height: 18px"></div>
+                    <div class="item">闽公安网备备案号：{{ footerData.publicSecurity }}</div>
+                </div>
+            </div>
+            <p class="copyright">{{ footerData.copyright }}</p>
+        </div>
+    </div>
 </template>
 
 <script>
-import { getFooterData } from '@/api/index'
+import {getFooterData} from '@/api/index'
 
 export default {
     name: 'Footer',
@@ -85,7 +89,7 @@ export default {
 
   .other {
     .img {
-      margin: 0 10px;
+      margin-right: 6px;
     }
 
     .item {
@@ -93,6 +97,7 @@ export default {
       font-size: 14px;
       line-height: 30px;
       text-decoration: none;
+
       &:hover {
         text-decoration: underline;
       }

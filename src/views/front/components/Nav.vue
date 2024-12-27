@@ -1,44 +1,72 @@
 <template>
-	<div class="nav">
-		<div class="container">
-			<div class="logo">
-				<img v-if="logoImage" :src="logoImage" alt="logo" height="50px" width="50px" style="margin:15px 0 0 0">
-				<!-- <div v-else style="font-size:26px;margin-right:50px" @click="$router.push('/home')">logo</div> -->
-        <div class="nav-items">
-          <div 
-            v-for="(item, i) in navList" 
-            :key="i" 
-            @click="toDetail(item, i)" 
-            :class="['nav-item', { 'active': $route.path === item.path }]"
-          >
-            {{ item.name }}
-          </div>
+    <div class="nav">
+        <div class="container">
+            <!-- 侧滑菜单 -->
+            <el-drawer
+                    v-if="isMobile"
+                    title=""
+                    :visible.sync="drawerVisible"
+                    direction="ltr"
+                    size="240px"
+                    :modal="false"
+                    custom-class="custom-drawer"
+            >
+                <div class="nav-items">
+                    <div
+                            v-for="(item, i) in navList"
+                            :key="i"
+                            @click="toDetail(item, i)"
+                            :class="['nav-item', { 'active': $route.path === item.path }]"
+                    >
+                        {{ item.name }}
+                    </div>
+                </div>
+            </el-drawer>
+
+            <!-- 主内容区域 -->
+            <div
+                    class="main-content"
+                    :style="{ transform: drawerVisible ? 'translateX(240px)' : 'translateX(0)' }"
+            >
+                <i class="el-icon-menu" @click="toggleDrawer" v-if="isMobile" style="font-size: 22px;"></i>
+                <img v-if="logoImage" :src="logoImage" alt="logo" height="75px" width="auto">
+                <div class="logo" v-if="!isMobile">
+                    <div class="nav-items">
+                        <div
+                                v-for="(item, i) in navList"
+                                :key="i"
+                                @click="toDetail(item, i)"
+                                :class="['nav-item', { 'active': $route.path === item.path }]"
+                        >
+                            {{ item.name }}
+                        </div>
+                    </div>
+                </div>
+                <div class="login">
+                    <div v-if="!isLogin" class="btn">
+                        <div @click="login">登录</div>
+                        <!-- <div @click="login('add')">注册</div> -->
+                    </div>
+                    <div v-else class="loginOut">
+                        <el-dropdown trigger="hover">
+                            <div class="avatar-wrapper">
+                                <el-avatar src="https://www.aliboxx.com/uploadfile/avatar/8.png"></el-avatar>
+                                <span style="font-size: 12px;margin-left:10px">{{ name }}</span>
+                            </div>
+                            <el-dropdown-menu slot="dropdown">
+                                <el-dropdown-item @click.native="info">
+                                    <span>后台管理</span>
+                                </el-dropdown-item>
+                                <el-dropdown-item divided @click.native="logout">
+                                    <span>退出登录</span>
+                                </el-dropdown-item>
+                            </el-dropdown-menu>
+                        </el-dropdown>
+                    </div>
+                </div>
+            </div>
         </div>
-			</div>
-			<div class="login">
-				<div v-if="!isLogin" class="btn">
-					<div @click="login">登录</div>
-					<!-- <div @click="login('add')">注册</div> -->
-				</div>
-				<div v-else class="loginOut">
-					<el-dropdown trigger="hover">
-						<div class="avatar-wrapper">
-							<el-avatar src="https://www.aliboxx.com/uploadfile/avatar/8.png"></el-avatar>
-							<span style="font-size: 12px;margin-left:10px">{{ name }}</span>
-						</div>
-						<el-dropdown-menu slot="dropdown">
-							<el-dropdown-item @click.native="info">
-								<span>后台管理</span>
-							</el-dropdown-item>
-							<el-dropdown-item divided @click.native="logout">
-								<span>退出登录</span>
-							</el-dropdown-item>
-						</el-dropdown-menu>
-					</el-dropdown>
-				</div>
-			</div>
-		</div>
-	</div>
+    </div>
 </template>
 
 <script>
@@ -50,6 +78,8 @@ export default {
     name: 'Nav',
     data() {
         return {
+            drawerVisible: false,
+            isMobile: false,
             navList: [
                 {
                     name: '首页',
@@ -59,7 +89,7 @@ export default {
                     name: '产品与服务',
                     path: '/ProductService',
                 },
-                 {
+                {
                     name: '招商',
                     path: '/Business',
                 },
@@ -86,9 +116,20 @@ export default {
                 this.logoImage = footerData.beianImage; // 从缓存中读取 beianImage
             });
         }
+        // 初始化时检查屏幕宽度
+        this.checkScreenWidth();
+        // 监听窗口resize事件
+        window.addEventListener('resize', this.checkScreenWidth);
     },
 
     methods: {
+        checkScreenWidth() {
+            this.isMobile = window.innerWidth < 768;
+        },
+        toggleDrawer() {
+            this.drawerVisible = !this.drawerVisible;
+            document.getElementsByTagName()
+        },
         logout() {
             this.$message.success('退出成功')
             localStorage.removeItem('token')
@@ -114,6 +155,9 @@ export default {
                 path: item.path
             })
         },
+        beforeDestroy() {
+            window.removeEventListener('resize', this.checkScreenWidth);
+        },
     },
 };
 </script>
@@ -130,16 +174,22 @@ export default {
   box-shadow: 0 1px 4px rgba(0, 21, 41, 0.08);
 
   .container {
-    width: 80%; // 增加容器宽度
-    margin: 0 auto;
+    width: 100%;
     display: flex;
     justify-content: space-between; // 使用 space-between 来分配空间
     align-items: center; // 垂直居中对齐
 
+    .main-content {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
     .logo {
       display: flex;
       align-items: center;
-      flex: 1; // 让 logo 部分占据剩余空间
+      font-size: 20px;
 
       .nav-items {
         display: flex;
@@ -147,28 +197,28 @@ export default {
         overflow-x: auto;
         -webkit-overflow-scrolling: touch;
         scrollbar-width: none; /* Firefox */
-        -ms-overflow-style: none;  /* Internet Explorer 10+ */
-        
+        -ms-overflow-style: none; /* Internet Explorer 10+ */
+
         &::-webkit-scrollbar {
           display: none; /* WebKit */
         }
-    }
-  }
-
-  .nav-item {
-        flex: 0 0 auto;
-        padding: 0 15px;
-        height: 72px;
-        line-height: 72px;
-        text-align: center;
-        cursor: pointer;
-        white-space: nowrap;
-        transition: color 0.3s;
-
-        &:hover, &.active {
-          color: #4c88ff;
-        }
       }
+    }
+
+    .nav-item {
+      flex: 0 0 auto;
+      padding: 0 15px;
+      height: 72px;
+      line-height: 72px;
+      text-align: center;
+      cursor: pointer;
+      white-space: nowrap;
+      transition: color 0.3s;
+
+      &:hover, &.active {
+        color: #4c88ff;
+      }
+    }
 
     .login {
       display: flex;
@@ -206,29 +256,5 @@ export default {
       }
     }
   }
-
-  .active {
-    color: #0b2183;
-    border-bottom: 3px solid #0b2183;
-  }
-
-  
-  @media (max-width: 768px) {
-  .container {
-    width: 95%;
-    flex-direction: column;
-    align-items: flex-start;
-  }
-
-  .logo {
-    width: 100%;
-    margin-bottom: 10px;
-  }
-
-  .login {
-    width: 100%;
-    justify-content: flex-end;
-  }
-}
 }
 </style>

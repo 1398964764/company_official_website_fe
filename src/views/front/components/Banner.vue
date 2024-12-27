@@ -25,9 +25,13 @@ export default {
     },
 
     mounted() {
-        console.log('Component mounted'); // 确认组件挂载
         this.fetchSwiperList(); // 组件挂载后获取数据
         window.addEventListener('resize', this.setCarouselHeight);
+        if (window.innerWidth <= 768) {
+            this.carouselHeight = '200px'; // 将移动端高度调整为200px
+        } else {
+            this.carouselHeight = '500px';
+        }
     },
     beforeDestroy() {
         window.removeEventListener('resize', this.setCarouselHeight);

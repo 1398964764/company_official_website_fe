@@ -28,7 +28,7 @@ body {
 
 @media screen and (max-width: 480px) {
   #app {
-    padding: 5px;
+    padding: 0px;
   }
 }
 </style>

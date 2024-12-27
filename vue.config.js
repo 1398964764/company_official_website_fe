@@ -6,7 +6,7 @@ module.exports = {
     proxy: {
       '/api/': {
         // target: 'http://127.0.0.1:8088',   // 测试环境
-        target: 'http://47.107.254.107:8088', // 产线地址
+        target: 'http://zpdianqi.cn:8088', // 产线地址
         changeOrigin: true,  // 是否跨域
         pathRewrite: {
           '^/api/': ''
